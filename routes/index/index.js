@@ -13,7 +13,7 @@ router.get('/instances', async (ctx) => {
   ctx.response.body = JSON.stringify(instances);
 });
 
-router.get('/addInstance', async (ctx) => {
+router.get('/addInstance',  (async (ctx) => {
 
   const id = v4();
 
@@ -32,15 +32,15 @@ router.get('/addInstance', async (ctx) => {
 
   instances.listeners.forEach(handler => handler(log));
 
+  setTimeout(() => {
     instances.add({
       id,
       state: 'stopped',
     });
+  }, 5000);
 
-    const response =  instances.data.filter(item => {return item.id === id})
-
-    ctx.response.body = JSON.stringify(response);
-});
+  ctx.response.body = { status: "OK" };
+}));
 
 router.delete('/removeInstance/', (ctx) => {
   const id = ctx.request.query.id;
